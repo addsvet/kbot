@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"time"
 
 	"github.com/spf13/cobra"
 	telebot "gopkg.in/telebot.v3"
@@ -19,8 +20,9 @@ var (
 
 // kbotCmd represents the kbot command
 var kbotCmd = &cobra.Command{
-	Use:   "kbot",
-	Short: "A brief description of your command",
+	Use:     "kbot",
+	Aliases: []string{"start"},
+	Short:   "A brief description of your command",
 	Long: `A longer description that spans multiple lines and likely contains examples
 and usage of using your command. For example:
 
@@ -37,17 +39,18 @@ to quickly create a Cobra application.`,
 		})
 
 		if err != nil {
-			logfatalf("Please check TELE_TOKEN env variable. %s", err)
+			log.Fatalf("Please check TELE_TOKEN env variable. %s", err)
 			return
 		}
 
 		kbot.Handle(telebot.OnText, func(m telebot.Context) error {
-			log.Print(m.Message{}.Payload, m.text{})
+			log.Print(m.Message().Payload, m.Text())
 
 			return err
 		})
 
 		kbot.Start()
+
 	},
 }
 
